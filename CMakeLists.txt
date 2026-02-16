@@ -26,7 +26,7 @@ add_custom_target(
     COMMAND
     clang-format
     --dry-run
-    --WError
+    --Werror
     ${SOURCES}
     ${HEADERS}
 )

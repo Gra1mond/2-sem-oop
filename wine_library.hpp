@@ -9,7 +9,7 @@ const int kDefaultCount = 0;
 const char kDefaulMarkText[] = "default";
 const int kEmptySymbolAppend = 1;
 const int kBufferSizeInitialize = 256;
-};  // namespace ClassConstants
+}  // namespace ClassConstants
 class wineLibrary {
     int date;
     char* mark;

@@ -2,18 +2,18 @@
 
 wineLibrary::wineLibrary(int inputDate, const char* inputMark, int inputPrice, int inputCount)
     : date(inputDate), mark(new char[strlen(inputMark) + 1]), price(inputPrice), count(inputCount) {
-    memcpy(mark, inputMark,strlen(inputMark) + 1);
+    memcpy(mark, inputMark, strlen(inputMark) + 1);
 }
 wineLibrary::wineLibrary()
     : date(ClassConstants::kDefaultDate),
       mark(new char[ClassConstants::kDefaultLenMark]),
       price(ClassConstants::kDefaultPrice),
       count(ClassConstants::kDefaultCount) {
-    memcpy(mark, ClassConstants::kDefaulMarkText,ClassConstants::kDefaultLenMark);
+    memcpy(mark, ClassConstants::kDefaulMarkText, ClassConstants::kDefaultLenMark);
 }
 wineLibrary::wineLibrary(const wineLibrary& other)
     : date(other.date), mark(new char[strlen(other.mark) + 1]), price(other.price), count(other.count) {
-    memcpy(mark, other.mark,strlen(other.mark) + 1);
+    memcpy(mark, other.mark, strlen(other.mark) + 1);
 }
 wineLibrary& wineLibrary::operator=(const wineLibrary& other) {
     if (this != &other) {
@@ -26,7 +26,7 @@ wineLibrary& wineLibrary::operator=(const wineLibrary& other) {
         if (other.mark) {
             size_t len = strlen(other.mark) + ClassConstants::kEmptySymbolAppend;
             mark = new char[len];
-            memcpy(mark, other.mark, len); 
+            memcpy(mark, other.mark, len);
         } else {
             mark = nullptr;
         }

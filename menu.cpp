@@ -47,8 +47,8 @@ void StartMenu() {
                     std::cout << "Нельзя добавить так много объектов\n";
                     break;
                 }
-                for (int i = realCount; i < numberObjects; i++) {
-                    std::cin >> testarray[i + realCount];
+                for (int i = MenuConstants::kStartCountInitialize; i < numberObjects; i++) {
+                    std::cin >> testarray[realCount];
                     realCount++;
                 }
                 break;

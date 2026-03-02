@@ -43,7 +43,7 @@ void StartMenu() {
                 std::cout << "Введите количество объектов для добавления\n";
                 int numberObjects{MenuConstants::kStartCountInitialize};
                 std::cin >> numberObjects;
-                if (numberObjects > MenuConstants::kStartCountInitialize - realCount) {
+                if (numberObjects > MenuConstants::kArraySize - realCount) {
                     std::cout << "Нельзя добавить так много объектов\n";
                     break;
                 }

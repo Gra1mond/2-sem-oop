@@ -18,6 +18,7 @@ class wineLibrary {
     char* mark;
     int price;
     int countBottles;
+ private:
     static int sizeLibrary;
 
  public:

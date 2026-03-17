@@ -19,15 +19,15 @@ int const kSearchObject = 7;
 int const kRedactObject = 8;
 int const kExit = 9;
 bool const kIsRunning = true;
-inline const char* FILE_PATH = "wineLibrary.dat";
+inline const char* FILE_PATH = "wineLibrary.txt";
 const int kDeleteArrayLen = 200;
 const int kSearchMarkLen = 50;
 }  // namespace MenuConstants
 
-enum class deleteChoise: int {
+enum class deleteChoise : int {
     Mark = 1,
     Year = 2,
     Price = 3,
     Count = 4
-};  
+};
 void StartMenu();

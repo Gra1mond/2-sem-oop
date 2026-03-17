@@ -1,8 +1,9 @@
 #include "wine_library.hpp"
-int wineLibrary::sizeLibrary = 0;  
+int wineLibrary::sizeLibrary = 0;
 wineLibrary::wineLibrary(int inputDate, const char* inputMark, int inputPrice, int inputCount)
     : date(inputDate), mark(new char[strlen(inputMark) + 1]), price(inputPrice), countBottles(inputCount) {
-    memcpy(mark, inputMark, strlen(inputMark) + 1);sizeLibrary++;
+    memcpy(mark, inputMark, strlen(inputMark) + 1);
+    sizeLibrary++;
 }
 wineLibrary::wineLibrary()
     : date(ClassConstants::kDefaultDate),
@@ -63,41 +64,45 @@ int wineLibrary::getPrice() const {
 const char* wineLibrary::getMark() const {
     return mark;
 }
-void wineLibrary::setDate(int inputDate){
+void wineLibrary::setDate(int inputDate) {
     date = inputDate;
 }
-void wineLibrary::setPrice(int inputPrice){
+void wineLibrary::setPrice(int inputPrice) {
     price = inputPrice;
 }
-void wineLibrary::setCount(int inputCount){
+void wineLibrary::setCount(int inputCount) {
     countBottles = inputCount;
 }
-void wineLibrary::setMark(const char *inputMark){
+void wineLibrary::setMark(const char* inputMark) {
     delete[] mark;
-    if(inputMark){
-        size_t len = strlen(inputMark)+ClassConstants::kEmptySymbolAppend;
-        mark=new char[len];
-        memcpy(mark,inputMark,len);
-    }else{
+    if (inputMark) {
+        size_t len = strlen(inputMark) + ClassConstants::kEmptySymbolAppend;
+        mark = new char[len];
+        memcpy(mark, inputMark, len);
+    } else {
         mark = nullptr;
     }
-
 }
 wineLibrary::~wineLibrary() {
     delete[] mark;
     sizeLibrary--;
 };
-void Swap(wineLibrary& thisWine,wineLibrary& copyWine) noexcept{
-    std::swap(thisWine.date,copyWine.date);
-    std::swap(thisWine.countBottles,copyWine.countBottles);
-    std::swap(thisWine.mark,copyWine.mark);
-    std::swap(thisWine.price,copyWine.price);
-}
+// void Swap(wineLibrary& thisWine,wineLibrary& copyWine) noexcept{
+//     std::swap(thisWine.date,copyWine.date);
+//     std::swap(thisWine.countBottles,copyWine.countBottles);
+//     std::swap(thisWine.mark,copyWine.mark);
+//     std::swap(thisWine.price,copyWine.price);
+// }
 std::ostream& operator<<(std::ostream& out, const wineLibrary& wine) {
-    out << "марка:" << wine.getMark();
-    out << " (" << wine.getDate() << " год)";
-    out << " - " << wine.getPrice() << " руб";
-    out << " [" << wine.getCount() << " шт]" << std::endl;
+    if (&out == &std::cout) {
+        out << "марка:" << wine.getMark();
+        out << " (" << wine.getDate() << " год)";
+        out << " - " << wine.getPrice() << " руб";
+        out << " [" << wine.getCount() << " шт]" << std::endl;
+    } else {
+        out << wine.getMark() << " " << wine.getDate() << " " << wine.getPrice() << " " << wine.getCount();
+        out << "\n";
+    }
 
     return out;
 }
@@ -107,19 +112,26 @@ std::istream& operator>>(std::istream& in, wineLibrary& wine) {
     int inputCount{ClassConstants::kDefaultCount};
     int inputPrice{ClassConstants::kDefaultCount};
 
-    std::cout << "Введите марку:\t";
+    if (&in == &std::cin) {
+        std::cout << "Введите марку:\t";
+    }
     in >> inputBuffer;
 
-    std::cout << "Введите год:\t";
+    if (&in == &std::cin) {
+        std::cout << "Введите год:\t";
+    }
     in >> inputDate;
 
-    std::cout << "Введите цену:\t";
+    if (&in == &std::cin) {
+        std::cout << "Введите цену:\t";
+    }
     in >> inputPrice;
 
-    std::cout << "Введите количество:\t";
+    if (&in == &std::cin) {
+        std::cout << "Введите количество:\t";
+    }
     in >> inputCount;
 
     wine.set(inputDate, inputBuffer, inputPrice, inputCount);
-
     return in;
 }

@@ -1,10 +1,12 @@
-enum class SortSelect: int {
+#pragma once
+#include "wine_library.hpp"
+enum class SortSelect : int {
     Mark = 1,
     Date = 2,
     Count = 3,
     Price = 4
 };
-namespace SortConstant{
-    int const kBufferAccess = 1;
+namespace SortConstant {
+int const kBufferAccess = 1;
 }
-void sortWineLibrary(wineLibrary* &testarray, int *wineLibraryCount);
+void sortWineLibrary(wineLibrary*& testarray, int* wineLibraryCount);

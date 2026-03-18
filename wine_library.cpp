@@ -18,23 +18,11 @@ wineLibrary::wineLibrary(const wineLibrary& other)
     memcpy(mark, other.mark, strlen(other.mark) + 1);
     sizeLibrary++;
 }
-wineLibrary& wineLibrary::operator=(const wineLibrary& other) {
-    if (this != &other) {
-        delete[] mark;
-
-        date = other.date;
-        price = other.price;
-        countBottles = other.countBottles;
-
-        if (other.mark) {
-            size_t len = strlen(other.mark) + ClassConstants::kEmptySymbolAppend;
-            mark = new char[len];
-            memcpy(mark, other.mark, len);
-        } else {
-            mark = nullptr;
-        }
-    }
-    sizeLibrary++;
+wineLibrary& wineLibrary::operator=(wineLibrary other) {
+    std::swap(date, other.date);
+    std::swap(mark, other.mark);
+    std::swap(price, other.price);
+    std::swap(countBottles, other.countBottles);
     return *this;
 }
 void wineLibrary::set(int inputDate, const char* inputMark, int inputPrice, int inputCount) {
@@ -87,12 +75,6 @@ wineLibrary::~wineLibrary() {
     delete[] mark;
     sizeLibrary--;
 };
-// void Swap(wineLibrary& thisWine,wineLibrary& copyWine) noexcept{
-//     std::swap(thisWine.date,copyWine.date);
-//     std::swap(thisWine.countBottles,copyWine.countBottles);
-//     std::swap(thisWine.mark,copyWine.mark);
-//     std::swap(thisWine.price,copyWine.price);
-// }
 std::ostream& operator<<(std::ostream& out, const wineLibrary& wine) {
     if (&out == &std::cout) {
         out << "марка:" << wine.getMark();

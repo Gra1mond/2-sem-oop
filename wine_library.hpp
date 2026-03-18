@@ -18,14 +18,13 @@ class wineLibrary {
     char* mark;
     int price;
     int countBottles;
- private:
     static int sizeLibrary;
 
  public:
     wineLibrary(int inputDate, const char* inputMark, int inputPrice, int inputCount);
     wineLibrary();
     wineLibrary(const wineLibrary& other);
-    wineLibrary& operator=(const wineLibrary& other);
+    wineLibrary& operator=(wineLibrary other);
     void set(int inputDate, const char* inputMark, int inputPrice, int inputCount);
     int getDate() const;
     int getCount() const;
@@ -36,7 +35,6 @@ class wineLibrary {
     void setCount(int inputCount);
     void setMark(const char* inputMark);
     ~wineLibrary();
-    // friend void Swap(wineLibrary& thisWine,wineLibrary& copyWine) noexcept;
 };
 std::ostream& operator<<(std::ostream& out, const wineLibrary& wine);
 std::istream& operator>>(std::istream& in, wineLibrary& wine);

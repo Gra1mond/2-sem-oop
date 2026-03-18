@@ -1,7 +1,7 @@
+#include "menuFunc.hpp"
 #include "menu.hpp"
 #include "sortLib.hpp"
 #include "wine_library.hpp"
-#include "menuFunc.hpp" 
 bool isEmptyMassive(const int WineLibraryCount) {
     if (WineLibraryCount == 0) {
         std::cout << "Массив пуст\n";

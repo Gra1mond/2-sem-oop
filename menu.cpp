@@ -2,7 +2,6 @@
 #include "menuFunc.hpp"
 #include "sortLib.hpp"
 
-
 void StartMenu() {
     wineLibrary test(MenuConstants::kTestDate, MenuConstants::kTestMarkText, MenuConstants::kTestPrice, MenuConstants::kTestCount);
     std::cout << test;

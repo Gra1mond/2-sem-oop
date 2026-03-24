@@ -1,5 +1,4 @@
 #include "wine_library.hpp"
-int wineLibrary::sizeLibrary = 0;
 wineLibrary::wineLibrary(int inputDate, const char* inputMark, int inputPrice, int inputCount)
     : date(inputDate), mark(new char[strlen(inputMark) + 1]), price(inputPrice), countBottles(inputCount) {
     memcpy(mark, inputMark, strlen(inputMark) + 1);

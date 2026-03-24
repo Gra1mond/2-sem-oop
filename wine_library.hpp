@@ -18,7 +18,7 @@ class wineLibrary {
     char* mark;
     int price;
     int countBottles;
-    static int sizeLibrary;
+    static inline int sizeLibrary = 0;
 
  public:
     wineLibrary(int inputDate, const char* inputMark, int inputPrice, int inputCount);

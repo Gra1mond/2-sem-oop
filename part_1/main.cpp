@@ -1,6 +1,14 @@
 #include <iostream>
 #include "fraction.hpp"
 
+namespace TestValues {
+    constexpr int kNum1 = 10;
+    constexpr int kDen1 = 14;
+    constexpr int kInt = 5;
+    constexpr double kDouble = -1.25;
+}
+// NOLINTBEGIN(cppcoreguidelines-avoid-magic-numbers)
+
 int main() {
     Fraction z;
     std::cout << "Введите дробь: ";
@@ -8,7 +16,7 @@ int main() {
     std::cout << "1. Ввод дроби с клавиатуры\n";
     std::cout << "z = " << z << std::endl;
 
-    Fraction fr1(10, 14);
+    Fraction fr1(TestValues::kNum1, TestValues::kDen1);
     Fraction fr2;
     Fraction fr3("-1 4/8");
 
@@ -16,7 +24,6 @@ int main() {
     std::cout << "fr1 = " << fr1 << std::endl;
     std::cout << "fr2 = " << fr2 << std::endl;
     std::cout << "fr3 = " << fr3 << std::endl;
-
 
     Fraction x(z);
     std::cout << "3. Проверка копирующего конструктора\n";
@@ -30,7 +37,7 @@ int main() {
     std::cout << "y += fr3 -> " << y << std::endl;
 
     std::cout << "5. Арифметика с целыми числами" << std::endl;
-    int i = 5;
+    int i = TestValues::kInt;
     y = x + i;
     std::cout << "y = x + i = " << y << std::endl;
 
@@ -41,8 +48,10 @@ int main() {
     std::cout << "y += i -> " << y << std::endl;
 
     std::cout << "6. Арифметика с double" << std::endl;
-    double d = -1.25;
-    Fraction f = d;  // Преобразование double -> Fraction (используется в части 2)
+    // NOLINTEND(cppcoreguidelines-avoid-magic-numbers)
+
+    double d = TestValues::kDouble;
+    Fraction f = d;
     std::cout << "f = " << f << std::endl;
 
     y = x + d;

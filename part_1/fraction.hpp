@@ -1,18 +1,18 @@
 #pragma once
-#include<iostream>
-class Fraction{
-    int numerator;      // было numenator
-    int denominator;    // было denomenator
+#include <iostream>
+class Fraction {
+    int numerator;
+    int denominator;
 
-    public:
-    Fraction(int inputNumerator=0,int inputDenominator=1) noexcept;
+ public:
+    Fraction(int inputNumerator = 0, int inputDenominator = 1) noexcept;
     Fraction(const char* ch);
-    Fraction(const Fraction &other);
+    Fraction(const Fraction& other);
     Fraction(double input);
 
     Fraction& operator=(Fraction other);
     Fraction& operator=(double input);
-    Fraction& operator=(const char *ch);
+    Fraction& operator=(const char* ch);
 
     Fraction operator+(const Fraction& other) const;
     friend Fraction operator+(double f1, const Fraction& f2);
@@ -26,10 +26,15 @@ class Fraction{
 
     friend std::ostream& operator<<(std::ostream& out, const Fraction& f);
     friend std::istream& operator>>(std::istream& in, Fraction& f);
-    
+
     ~Fraction();
     void setNumerator(int inputNumerator);
     void setDenominator(int inputDenominator);
     int getNumerator() const;
     int getDenominator() const;
 };
+namespace Constants
+{
+    inline constexpr int kNumStart = 0;
+    inline constexpr int kDenStart = 1;
+}

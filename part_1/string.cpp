@@ -11,12 +11,6 @@ void readLine(const char* ch, int& numerator, int& denominator) {
 void parseString(const char* buffer, int& numerator, int& denominator) {
     const char* ptr = buffer;
 
-    bool isNegative = false;
-    if (*ptr == '-') {
-        isNegative = true;
-        ptr++;
-    }
-
     const char* slash = strchr(ptr, '/');
 
     long num = 0;
@@ -32,10 +26,6 @@ void parseString(const char* buffer, int& numerator, int& denominator) {
 
     numerator = static_cast<int>(num);
     denominator = static_cast<int>(den);
-
-    if (isNegative) {
-        numerator = -numerator;
-    }
 
     if (denominator == 0) {
         denominator = 1;

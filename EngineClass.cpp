@@ -1,0 +1,179 @@
+/*Вывод сообщения в конструкторе и деструкторе
+Создание абстрактного класса + виртуальный деструктор 
+в абстрактном классе создать статическую переменную
+виртульный метод show() в абстрактном классе для отобрадения данных класса
+статическая библитотека в итоге
+Компонентные данные класса специфицировать как protected.
+print() remove() и clear() для контейнера 
+оптимальное расширение массива(контейнера) если его размер больше чем половина то удвоить, 
+если меньше чем половина - уменьшить в 2 раза
+*/
+
+#include"EngineClass.hpp"
+// инициализация Engine
+Engine** Engine::container=nullptr;
+int Engine::countContainer = 0;
+int Engine::sizeContainer = 0;
+
+Engine::Engine():id(0),ordered(false){
+    std::cout<<"Engine()"<<std::endl;
+}
+
+Engine::Engine(int inputId, bool inputOrder):id(inputId),ordered(inputOrder){
+    std::cout<<"Engine()"<<std::endl;
+}
+
+Engine::Engine(const Engine& other):id(other.id),ordered(other.ordered){
+    std::cout<<"Engine()"<<std::endl;
+}
+
+Engine::~Engine(){
+    std::cout<<"~Engine()"<<std::endl;
+}
+
+void Engine::print(){
+    if(!container || container==0){
+        std::cout<<"Контейнер пустой"<<std::endl;
+        return;
+    }
+    std::cout<<"Engine"<<std::endl;
+    for (int i{0};i<countContainer;++i){
+        if (container[i]){
+            std::cout << "Двигатель с индексом" << i << ": ID = " << container[i]->id 
+                      << ", Ordered = " << container[i]->ordered << std::endl;
+        }
+    }
+}
+
+void Engine::resizeContainer(int newSize){
+    Engine** newContainer =new Engine*[newSize];
+
+    for(int i{0};i<countContainer;++i){
+        newContainer[i] = container[i];
+    }
+
+    for (int i{countContainer};i<newSize;++i){
+        newContainer[i]=nullptr;
+    }
+
+    delete[] container;
+    container = newContainer;
+    sizeContainer = newSize;
+}
+
+void Engine::add(Engine* engine){
+    if(!container){
+        sizeContainer = 4;
+        container = new Engine*[sizeContainer];
+        for (int i{0};i<sizeContainer;++i){
+            container[i]=nullptr;
+        }
+    }
+    if(countContainer>sizeContainer/2){
+        resizeContainer(sizeContainer*2);  
+    }else if(countContainer>0 && countContainer<=sizeContainer/2 && sizeContainer>4){
+        resizeContainer(sizeContainer/2);
+    }
+    container[countContainer++]=engine;
+}
+
+void Engine::remove(int removeId){
+    if(!container || container==0){
+        std::cout<<"Контейнер пустой"<<std::endl;
+        return;
+    }
+    for(int i{0};i<countContainer;++i){
+        if(container[i] && container[i]->id == removeId){
+            delete container[i];
+
+            for(int j{i};j<countContainer-1;++j){
+                container[j]=container[j+1];
+            }
+            countContainer--;
+            std::cout << "Двигатель ID " << removeId << " удален." << std::endl;
+            return;
+        }
+    }
+    std::cout << "Двигатель с  ID " << removeId << " не найден." << std::endl;
+}
+
+void Engine::clear(){
+    if(!container){
+        return;
+    }
+    for (int i{0};i<countContainer;++i){
+        delete container[i];
+    }
+
+    delete[] container;
+    container = nullptr;
+    countContainer = 0;
+    std::cout<<"Все двигатели удалены"<<std::endl;
+}
+
+// инициализация InternalCombustionEngine
+
+InternalCombustionEngine::InternalCombustionEngine():Engine(),power(0),price(0){
+    std::cout<<"InternalCombustionEngine()"<<std::endl;
+}
+
+InternalCombustionEngine::InternalCombustionEngine(int inputPower,int inputPrice):Engine(),power(inputPower),price(inputPrice){
+    std::cout<<"InternalCombustionEngine()"<<std::endl;
+}
+
+InternalCombustionEngine::InternalCombustionEngine(const InternalCombustionEngine& other):Engine(other),power(other.power),price(other.price){
+    std::cout<<"InternalCombustionEngine()"<<std::endl;
+}
+
+InternalCombustionEngine::~InternalCombustionEngine() {
+    std::cout<<"~InternalCombustionEngine()"<<std::endl;
+}
+
+void InternalCombustionEngine::show(){
+    std::cout << ", Можность: " << power << ", Цена: " << price;
+}
+
+//инициализация DieselEngine
+
+DieselEngine::DieselEngine():InternalCombustionEngine(),maxTorque(0.0){
+    std::cout<<"DieselEngine()"<<std::endl;
+}
+
+DieselEngine::DieselEngine(double inputTorque):InternalCombustionEngine(),maxTorque(inputTorque){
+    std::cout<<"DieselEngine()"<<std::endl;
+}
+
+DieselEngine::DieselEngine(const DieselEngine& other):InternalCombustionEngine(other),maxTorque(other.maxTorque){
+    std::cout<<"DieselEngine()"<<std::endl;
+}
+
+DieselEngine::~DieselEngine() {
+    std::cout<<"~DieselEngine()"<<std::endl;
+}
+
+void DieselEngine::show(){
+    InternalCombustionEngine::show();
+    std::cout<<", Крутящий момент:"<<maxTorque;
+}
+
+//Иничиализация TurbojetEngine
+
+TurbojetEngine::TurbojetEngine():Engine(),turbinePower(0.0){
+    std::cout<<"TurbojetEngine()"<<std::endl;
+}
+
+TurbojetEngine::TurbojetEngine(double inputTurbinePower):Engine(),turbinePower(inputTurbinePower){
+    std::cout<<"TurbojetEngine()"<<std::endl;
+}
+
+TurbojetEngine::TurbojetEngine(const TurbojetEngine& other):Engine(other),turbinePower(other.turbinePower){
+    std::cout<<"TurbojetEngine()"<<std::endl;
+}
+
+TurbojetEngine::~TurbojetEngine(){
+    std::cout<<"~TurbojetEngine()"<<std::endl;
+}
+
+void TurbojetEngine::show() {
+    std::cout << ", Наличие турбина: " << (turbinePower ? "Yes" : "No");
+}

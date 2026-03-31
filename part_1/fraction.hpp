@@ -1,5 +1,9 @@
 #pragma once
 #include <iostream>
+#include "string.hpp"
+#include <cstdlib>
+#include <numeric>
+#include <utility>
 class Fraction {
     int numerator;
     int denominator;

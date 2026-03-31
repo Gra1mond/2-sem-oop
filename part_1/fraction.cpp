@@ -1,10 +1,4 @@
 #include "fraction.hpp"
-#include "string.hpp"
-
-#include <cstdlib>
-#include <iostream>
-#include <numeric>
-#include <utility>
 
 Fraction::Fraction(int inputNumerator, int inputDenominator) noexcept : numerator(inputNumerator), denominator(inputDenominator) {
     reduceFraction(numerator, denominator);

@@ -41,7 +41,7 @@ int main() {
     y = x + i;
     std::cout << "y = x + i = " << y << std::endl;
 
-    y = i + x;
+    y =static_cast<Fraction>(i) + x;
     std::cout << "y = i + x = " << y << std::endl;
 
     y += i;
@@ -56,7 +56,7 @@ int main() {
     y = x + d;
     std::cout << "y = x + d = " << y << std::endl;
 
-    y = d + x;
+    y = static_cast<Fraction>(d) + x;
     std::cout << "y = d + x = " << y << std::endl;
 
     y += d;
@@ -65,5 +65,6 @@ int main() {
     y += d + i;
     std::cout << "y += d + i -> " << y << std::endl;
 
+    
     return 0;
 }

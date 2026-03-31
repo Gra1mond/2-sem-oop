@@ -1,35 +1,40 @@
-#pragma once
+#ifndef FRACTION_H
+#define FRACTION_H
+
+#include <cmath>
+#include <cstring>
 #include <iostream>
+#include <numeric>
+
+namespace Constant {
+const int kMaxBufferLength = 100;
+const int kNumberDecimalPlaces = 10000;
+}  // namespace Constant
+
 class Fraction {
+ private:
     int numerator;
     int denominator;
 
+    void ParsingBuffer(const char* inputBuffer);
+    void Normalize();
+
  public:
-    Fraction();
-    Fraction(int inputNumerator, int inputDenominator) noexcept;
-    Fraction(const char* ch);
-    Fraction(const Fraction& other);
-    Fraction(double input);
-    explicit operator double() const;
-    Fraction(int value);
+    Fraction() noexcept;
+    Fraction(const char* inputBuffer);
+    Fraction(int inputNumerator, int inputDenominator = 1);
+    Fraction(const double n);
 
-    Fraction& operator=(Fraction other);
-    Fraction& operator=(double input);
-    Fraction& operator=(const char* ch);
+    Fraction(const Fraction& other) = default;
+    Fraction& operator=(const Fraction& other) = default;
 
-    Fraction& operator+=(const Fraction& f2);
+    friend std::istream& operator>>(std::istream& in, Fraction& fraction);
+    friend std::ostream& operator<<(std::ostream& out, const Fraction& fraction);
 
-    friend std::ostream& operator<<(std::ostream& out, const Fraction& f);
-    friend std::istream& operator>>(std::istream& in, Fraction& f);
+    void operator+=(const Fraction& summand);
+    Fraction operator+(const Fraction& summand) const;
 
-    ~Fraction();
-    void setNumerator(int inputNumerator);
-    void setDenominator(int inputDenominator);
-    int getNumerator() const;
-    int getDenominator() const;
+    Fraction operator++(int);
 };
-Fraction operator+(Fraction lhs, const Fraction& rhs);
-namespace Constants {
-  inline constexpr int kNumStart = 0;
-  inline constexpr int kDenStart = 1;
-}
+
+#endif

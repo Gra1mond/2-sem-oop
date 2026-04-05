@@ -5,8 +5,8 @@
 class Engine {
  private:
     static Engine** container;
-    static int countContainer;
-    static int sizeContainer;
+    inline static int countContainer;
+    inline static int sizeContainer;
 
  private:
     int id;

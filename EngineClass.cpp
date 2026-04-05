@@ -1,8 +1,5 @@
 #include "EngineClass.hpp"
 
-// NOLINT(cppcoreguidelines-avoid-non-const-global-variables)
-Engine** Engine::container = nullptr;
-
 int Engine::getId() const {
     return id;
 }
@@ -124,7 +121,9 @@ void Engine::remove(int removeId) {
 }
 
 void Engine::clear() {
-    if (!container) return;
+    if (!container) {
+        return;
+    }
 
     for (int i{0}; i < countContainer; ++i) {
         delete container[i];

@@ -1,59 +1,91 @@
 /*Вывод сообщения в конструкторе и деструкторе
-Создание абстрактного класса + виртуальный деструктор 
+Создание абстрактного класса + виртуальный деструктор
 в абстрактном классе создать статическую переменную
 виртульный метод show() в абстрактном классе для отобрадения данных класса
 статическая библитотека в итоге
 Компонентные данные класса специфицировать как protected.
-print() remove() и clear() для контейнера 
-оптимальное расширение массива(контейнера) если его размер больше чем половина то удвоить, 
+print() remove() и clear() для контейнера
+оптимальное расширение массива(контейнера) если его размер больше чем половина то удвоить,
 если меньше чем половина - уменьшить в 2 раза
 */
 
-#include"EngineClass.hpp"
+#include "EngineClass.hpp"
 // инициализация Engine
-Engine** Engine::container=nullptr;
+Engine** Engine::container = nullptr;
 int Engine::countContainer = 0;
 int Engine::sizeContainer = 0;
 
-Engine::Engine():id(0),ordered(false){
-    std::cout<<"Engine()"<<std::endl;
+int Engine::getId() const {
+    return id;
 }
 
-Engine::Engine(int inputId, bool inputOrder):id(inputId),ordered(inputOrder){
-    std::cout<<"Engine()"<<std::endl;
+bool Engine::isOrdered() const {
+    return ordered;
 }
 
-Engine::Engine(const Engine& other):id(other.id),ordered(other.ordered){
-    std::cout<<"Engine()"<<std::endl;
+Engine::Engine() : id(0), ordered(false) {
+    std::cout << "Engine()" << std::endl;
 }
 
-Engine::~Engine(){
-    std::cout<<"~Engine()"<<std::endl;
+Engine::Engine(int inputId, bool inputOrder) : id(inputId), ordered(inputOrder) {
+    std::cout << "Engine()" << std::endl;
 }
 
-void Engine::print(){
-    if(!container || container==0){
-        std::cout<<"Контейнер пустой"<<std::endl;
+Engine::Engine(const Engine& other) : id(other.id), ordered(other.ordered) {
+    std::cout << "Engine()" << std::endl;
+}
+
+Engine::~Engine() {
+    std::cout << "~Engine()" << std::endl;
+}
+
+Engine::Engine(Engine&& other) noexcept : id(other.id), ordered(other.ordered) {
+    other.id = 0;
+    other.ordered = false;
+}
+
+Engine& Engine::operator=(Engine&& other) noexcept {
+    if (this != &other) {
+        id = other.id;
+        ordered = other.ordered;
+        other.id = 0;
+        other.ordered = false;
+    }
+    return *this;
+}
+
+Engine& Engine::operator=(const Engine& other) {
+    if (this != &other) {
+        id = other.id;
+        ordered = other.ordered;
+    }
+    return *this;
+}
+
+void Engine::print() {
+    if (!container || container == nullptr) {
+        std::cout << "Контейнер пустой" << std::endl;
         return;
     }
-    std::cout<<"Engine"<<std::endl;
-    for (int i{0};i<countContainer;++i){
-        if (container[i]){
-            std::cout << "Двигатель с индексом" << i << ": ID = " << container[i]->id 
-                      << ", Ordered = " << container[i]->ordered << std::endl;
+    std::cout << "Engine" << std::endl;
+    for (int i{0}; i < countContainer; ++i) {
+        if (container[i]) {
+            std::cout << "Двигатель " << i << ": ID = " << container[i]->getId();
+            container[i]->show();
+            std::cout << std::endl;
         }
     }
 }
 
-void Engine::resizeContainer(int newSize){
-    Engine** newContainer =new Engine*[newSize];
+void Engine::resizeContainer(int newSize) {
+    Engine** newContainer = new Engine*[newSize];
 
-    for(int i{0};i<countContainer;++i){
+    for (int i{0}; i < countContainer; ++i) {
         newContainer[i] = container[i];
     }
 
-    for (int i{countContainer};i<newSize;++i){
-        newContainer[i]=nullptr;
+    for (int i{countContainer}; i < newSize; ++i) {
+        newContainer[i] = nullptr;
     }
 
     delete[] container;
@@ -61,33 +93,33 @@ void Engine::resizeContainer(int newSize){
     sizeContainer = newSize;
 }
 
-void Engine::add(Engine* engine){
-    if(!container){
+void Engine::add(Engine* engine) {
+    if (!container) {
         sizeContainer = 4;
         container = new Engine*[sizeContainer];
-        for (int i{0};i<sizeContainer;++i){
-            container[i]=nullptr;
+        for (int i{0}; i < sizeContainer; ++i) {
+            container[i] = nullptr;
         }
     }
-    if(countContainer>sizeContainer/2){
-        resizeContainer(sizeContainer*2);  
-    }else if(countContainer>0 && countContainer<=sizeContainer/2 && sizeContainer>4){
-        resizeContainer(sizeContainer/2);
+    if (countContainer > sizeContainer / 2) {
+        resizeContainer(sizeContainer * 2);
+    } else if (countContainer > 0 && countContainer <= sizeContainer / 2 && sizeContainer > 4) {
+        resizeContainer(sizeContainer / 2);
     }
-    container[countContainer++]=engine;
+    container[countContainer++] = engine;
 }
 
-void Engine::remove(int removeId){
-    if(!container || container==0){
-        std::cout<<"Контейнер пустой"<<std::endl;
+void Engine::remove(int removeId) {
+    if (!container || container == nullptr) {
+        std::cout << "Контейнер пустой" << std::endl;
         return;
     }
-    for(int i{0};i<countContainer;++i){
-        if(container[i] && container[i]->id == removeId){
+    for (int i{0}; i < countContainer; ++i) {
+        if (container[i] && container[i]->getId() == removeId) {
             delete container[i];
 
-            for(int j{i};j<countContainer-1;++j){
-                container[j]=container[j+1];
+            for (int j{i}; j < countContainer - 1; ++j) {
+                container[j] = container[j + 1];
             }
             countContainer--;
             std::cout << "Двигатель ID " << removeId << " удален." << std::endl;
@@ -97,81 +129,98 @@ void Engine::remove(int removeId){
     std::cout << "Двигатель с  ID " << removeId << " не найден." << std::endl;
 }
 
-void Engine::clear(){
-    if(!container){
+void Engine::clear() {
+    if (!container) {
         return;
     }
-    for (int i{0};i<countContainer;++i){
+    for (int i{0}; i < countContainer; ++i) {
         delete container[i];
     }
 
     delete[] container;
     container = nullptr;
     countContainer = 0;
-    std::cout<<"Все двигатели удалены"<<std::endl;
+    std::cout << "Все двигатели удалены" << std::endl;
 }
 
 // инициализация InternalCombustionEngine
 
-InternalCombustionEngine::InternalCombustionEngine():Engine(),power(0),price(0){
-    std::cout<<"InternalCombustionEngine()"<<std::endl;
+InternalCombustionEngine::InternalCombustionEngine() : Engine(), power(0), price(0) {
+    std::cout << "InternalCombustionEngine()" << std::endl;
 }
 
-InternalCombustionEngine::InternalCombustionEngine(int inputPower,int inputPrice):Engine(),power(inputPower),price(inputPrice){
-    std::cout<<"InternalCombustionEngine()"<<std::endl;
+InternalCombustionEngine::InternalCombustionEngine(int inputPower, int inputPrice) : Engine(), power(inputPower), price(inputPrice) {
+    std::cout << "InternalCombustionEngine()" << std::endl;
 }
 
-InternalCombustionEngine::InternalCombustionEngine(const InternalCombustionEngine& other):Engine(other),power(other.power),price(other.price){
-    std::cout<<"InternalCombustionEngine()"<<std::endl;
+InternalCombustionEngine::InternalCombustionEngine(const InternalCombustionEngine& other) : Engine(other), power(other.power), price(other.price) {
+    std::cout << "InternalCombustionEngine()" << std::endl;
 }
 
 InternalCombustionEngine::~InternalCombustionEngine() {
-    std::cout<<"~InternalCombustionEngine()"<<std::endl;
+    std::cout << "~InternalCombustionEngine()" << std::endl;
 }
 
-void InternalCombustionEngine::show(){
+void InternalCombustionEngine::show() {
     std::cout << ", Можность: " << power << ", Цена: " << price;
 }
 
-//инициализация DieselEngine
-
-DieselEngine::DieselEngine():InternalCombustionEngine(),maxTorque(0.0){
-    std::cout<<"DieselEngine()"<<std::endl;
+InternalCombustionEngine& InternalCombustionEngine::operator=(const InternalCombustionEngine& other) {
+    if (this != &other) {
+        Engine::operator=(other);
+        power = other.power;
+        price = other.price;
+    }
+    return *this;
 }
 
-DieselEngine::DieselEngine(double inputTorque):InternalCombustionEngine(),maxTorque(inputTorque){
-    std::cout<<"DieselEngine()"<<std::endl;
+// инициализация DieselEngine
+
+DieselEngine::DieselEngine() : InternalCombustionEngine(), maxTorque(0.0) {
+    std::cout << "DieselEngine()" << std::endl;
 }
 
-DieselEngine::DieselEngine(const DieselEngine& other):InternalCombustionEngine(other),maxTorque(other.maxTorque){
-    std::cout<<"DieselEngine()"<<std::endl;
+DieselEngine::DieselEngine(double inputTorque) : InternalCombustionEngine(), maxTorque(inputTorque) {
+    std::cout << "DieselEngine()" << std::endl;
+}
+
+DieselEngine::DieselEngine(const DieselEngine& other) : InternalCombustionEngine(other), maxTorque(other.maxTorque) {
+    std::cout << "DieselEngine()" << std::endl;
 }
 
 DieselEngine::~DieselEngine() {
-    std::cout<<"~DieselEngine()"<<std::endl;
+    std::cout << "~DieselEngine()" << std::endl;
 }
 
-void DieselEngine::show(){
+void DieselEngine::show() {
     InternalCombustionEngine::show();
-    std::cout<<", Крутящий момент:"<<maxTorque;
+    std::cout << ", Крутящий момент:" << maxTorque;
 }
 
-//Иничиализация TurbojetEngine
-
-TurbojetEngine::TurbojetEngine():Engine(),turbinePower(0.0){
-    std::cout<<"TurbojetEngine()"<<std::endl;
+DieselEngine& DieselEngine::operator=(const DieselEngine& other) {
+    if (this != &other) {
+        InternalCombustionEngine::operator=(other);
+        maxTorque = other.maxTorque;
+    }
+    return *this;
 }
 
-TurbojetEngine::TurbojetEngine(double inputTurbinePower):Engine(),turbinePower(inputTurbinePower){
-    std::cout<<"TurbojetEngine()"<<std::endl;
+// Иничиализация TurbojetEngine
+
+TurbojetEngine::TurbojetEngine() : Engine(), turbinePower(false) {
+    std::cout << "TurbojetEngine()" << std::endl;
 }
 
-TurbojetEngine::TurbojetEngine(const TurbojetEngine& other):Engine(other),turbinePower(other.turbinePower){
-    std::cout<<"TurbojetEngine()"<<std::endl;
+TurbojetEngine::TurbojetEngine(bool inputTurbinePower) : Engine(), turbinePower(inputTurbinePower) {
+    std::cout << "TurbojetEngine()" << std::endl;
 }
 
-TurbojetEngine::~TurbojetEngine(){
-    std::cout<<"~TurbojetEngine()"<<std::endl;
+TurbojetEngine::TurbojetEngine(const TurbojetEngine& other) : Engine(other), turbinePower(other.turbinePower) {
+    std::cout << "TurbojetEngine()" << std::endl;
+}
+
+TurbojetEngine::~TurbojetEngine() {
+    std::cout << "~TurbojetEngine()" << std::endl;
 }
 
 void TurbojetEngine::show() {

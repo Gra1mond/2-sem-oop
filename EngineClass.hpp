@@ -1,58 +1,87 @@
 #pragma once
-#include<iostream>
-class Engine{
-private:
+
+#include <iostream>
+
+class Engine {
+ private:
     static Engine** container;
     static int countContainer;
     static int sizeContainer;
-protected:
+
+ private:
     int id;
     bool ordered;
-public:
+
+ public:
     static void print();
     static void remove(int removeId);
     static void clear();
     static void resizeContainer(int newSize);
     static void add(Engine* engine);
 
-    virtual void show();
+    virtual void show() = 0;
 
     Engine();
-    Engine(int inputId,bool inputOrder);
-    Engine(const Engine& other); 
+    Engine(int inputId, bool inputOrder);
+    Engine(const Engine& other);
+    Engine(Engine&& other) noexcept;
+    Engine& operator=(const Engine& other);
+    Engine& operator=(Engine&& other) noexcept;
+
     virtual ~Engine();
+
+    [[nodiscard]] int getId() const;
+    [[nodiscard]] bool isOrdered() const;
 };
 
-class InternalCombustionEngine:public Engine{
-protected:
+class InternalCombustionEngine : public Engine {
+ private:
     int power;
     int price;
-public:
+
+ public:
     void show() override;
+
     InternalCombustionEngine();
-    InternalCombustionEngine(int inputPower,int inputPrice);
+    InternalCombustionEngine(int inputPower, int inputPrice);
     InternalCombustionEngine(const InternalCombustionEngine& other);
-    virtual ~InternalCombustionEngine();
+    InternalCombustionEngine(InternalCombustionEngine&& other) noexcept = default;
+    InternalCombustionEngine& operator=(const InternalCombustionEngine& other);
+    InternalCombustionEngine& operator=(InternalCombustionEngine&& other) noexcept = default;
+
+    ~InternalCombustionEngine() override;
 };
 
-class DieselEngine:public InternalCombustionEngine{
-protected:
-    double maxTorque; 
-public:
+class DieselEngine : public InternalCombustionEngine {
+ private:
+    double maxTorque;
+
+ public:
     void show() override;
+
     DieselEngine();
     DieselEngine(double inputMaxTorque);
     DieselEngine(const DieselEngine& other);
+    DieselEngine(DieselEngine&& other) noexcept = default;
+    DieselEngine& operator=(const DieselEngine& other);
+    DieselEngine& operator=(DieselEngine&& other) noexcept = default;
+
     ~DieselEngine() override;
 };
 
-class TurbojetEngine:public Engine{
-protected:
+class TurbojetEngine : public Engine {
+ private:
     bool turbinePower;
-public:
+
+ public:
     void show() override;
+
     TurbojetEngine();
-    TurbojetEngine(double inptTurbinePower);
+    TurbojetEngine(bool inputTurbinePower);
     TurbojetEngine(const TurbojetEngine& other);
+    TurbojetEngine(TurbojetEngine&& other) noexcept = default;
+    TurbojetEngine& operator=(const TurbojetEngine& other);
+    TurbojetEngine& operator=(TurbojetEngine&& other) noexcept = default;
+
     ~TurbojetEngine() override;
 };

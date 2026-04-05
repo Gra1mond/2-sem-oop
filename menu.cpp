@@ -39,7 +39,7 @@ void startMenu() {
                     bool turbine{false};
                     std::cout << "Определите наличие турбины:\nВведите 0 - если турбины нет, или введите количество турбин\n";
                     std::cin >> input;
-                    turbine=static_cast<bool>(input); 
+                    turbine = static_cast<bool>(input);
                     e = new TurbojetEngine(turbine);
                 }
                 if (e) {

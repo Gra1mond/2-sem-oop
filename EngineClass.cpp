@@ -11,7 +11,9 @@ print() remove() и clear() для контейнера
 
 #include "EngineClass.hpp"
 // инициализация Engine
+// NOLINTBEGIN(cppcoreguidelines-avoid-non-const-global-variables)
 Engine** Engine::container = nullptr;
+// NOLINTEND(cppcoreguidelines-avoid-non-const-global-variables)
 
 int Engine::getId() const {
     return id;

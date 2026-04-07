@@ -2,11 +2,13 @@
 
 #include <iostream>
 
+
 class Engine {
  private:
     static Engine** container;
     inline static int countContainer = 0;
     inline static int sizeContainer = 0;
+    inline static int nextId = 1;
 
  private:
     int id;
@@ -34,7 +36,7 @@ class Engine {
     [[nodiscard]] bool isOrdered() const;
 };
 
-// ======================= InternalCombustionEngine =======================
+//InternalCombustionEngine 
 
 class InternalCombustionEngine : public Engine {
  private:
@@ -55,7 +57,7 @@ class InternalCombustionEngine : public Engine {
     ~InternalCombustionEngine() override;
 };
 
-// ======================= DieselEngine =======================
+//DieselEngine
 
 class DieselEngine : public InternalCombustionEngine {
  private:
@@ -75,7 +77,7 @@ class DieselEngine : public InternalCombustionEngine {
     ~DieselEngine() override;
 };
 
-// ======================= TurbojetEngine =======================
+//TurbojetEngine
 
 class TurbojetEngine : public Engine {
  private:

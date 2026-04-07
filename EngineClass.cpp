@@ -23,7 +23,7 @@ bool Engine::isOrdered() const {
     return ordered;
 }
 
-Engine::Engine() : id(0), ordered(false) {
+Engine::Engine() : id(nextId++), ordered(false) {
     std::cout << "Engine()" << std::endl;
 }
 

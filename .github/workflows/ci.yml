@@ -9,7 +9,7 @@ jobs:
       - name: Install tools
         run: |
           apt-get update
-          apt-get install -y clang-tidy cmake ninja-build unzip g++
+          apt-get install -y clang-tidy cmake ninja-build unzip g++ clang-format
 
       - name: Checkout project
         uses: actions/checkout@v4
@@ -17,12 +17,8 @@ jobs:
       - name: Configure project
         run: cmake -S . -B build -G Ninja
 
-      - name: Build project
+      - name: Build project (clang-tidy runs here)
         run: cmake --build build
-
-      - name: Run clang-tidy
-        run: |
-          cmake --build build --target tidy || true
 
 
   clang-format:
@@ -38,7 +34,8 @@ jobs:
       - name: Checkout project
         uses: actions/checkout@v4
 
-      - name: Run clang-format
-        run: |
-          cmake -S . -B build -G Ninja
-          cmake --build build --target clang-format
+      - name: Configure project
+        run: cmake -S . -B build -G Ninja
+
+      - name: Run clang-format check
+        run: cmake --build build --target clang-format

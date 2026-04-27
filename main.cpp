@@ -3,17 +3,29 @@
 #include "containers/Container.h"
 #include "containers/Set.h"
 
+namespace Const {
+    constexpr int TWO = 2;
+    constexpr int THREE = 3;
+    constexpr int FIVE = 5;
+    constexpr int TEN = 10;
+
+    constexpr double ONE_POINT_FIVE = 1.5;
+    constexpr double TWO_POINT_ZERO = 2.0;
+    constexpr double THREE_POINT_NINE_NINE = 3.99;
+    constexpr double THREE_POINT_NINE_EIGHT = 3.98;
+    constexpr double TEN_D = 10.0;
+}
+
 int main() {
 
     // ===== Container =====
-    Container v("Hello!");
+    Container<const char*> v("Hello!");
     v.push("Привет!");
     v.push("World");
     v.push("Test");
 
     std::cout << "Вектор v: " << v << std::endl;
 
-    // Проверка поиска
     int index = v.find("World");
     std::cout << "Индекс элемента 'World': " << index << std::endl;
 
@@ -29,8 +41,10 @@ int main() {
     std::cout << "v1 после удаления элемента с индексом 2: " << v1 << std::endl;
 
 
-    // ===== Set<char*> =====
-    Set<char*> s("Yes"), s1("Hello!"), s2;
+    // ===== Set =====
+    Set<const char*> s("Yes");
+    Set<const char*> s1("Hello!");
+    Set<const char*> s2;
 
     s.push("Привет!");
     s.push("No");
@@ -38,9 +52,9 @@ int main() {
 
     std::cout << "\nМножество s: " << s << std::endl;
 
-    // Проверка наличия элемента
-    if (s.is_element("No"))
+    if (s.is_element("No")) {
         std::cout << "'No' есть в множестве s\n";
+    }
 
     s1.push("Cat");
     s1.push("Dog");
@@ -48,38 +62,35 @@ int main() {
 
     std::cout << "Множество s1: " << s1 << std::endl;
 
-    // Разность
     s2 = s1 - s;
     std::cout << "s2 = s1 - s: " << s2 << std::endl;
 
-    // Объединение
     s2 = s1 + s;
     std::cout << "s2 = s1 + s: " << s2 << std::endl;
 
-    // Пересечение
     s2 = s1 * s;
     std::cout << "s2 = s1 * s: " << s2 << std::endl;
 
-    // Сравнение
-    Set<char*> s3 = s2;
+    Set<const char*> s3 = s2;
     std::cout << "s3: " << s3 << std::endl;
 
-    if (s3 == s2)
+    if (s3 == s2) {
         std::cout << "s3 == s2\n";
-    else
+    } else {
         std::cout << "s3 != s2\n";
+    }
 
 
     // ===== Set<int> =====
     Set<int> one(1);
-    one.push(2);
-    one.push(3);
-    one.push(5);
+    one.push(Const::TWO);
+    one.push(Const::THREE);
+    one.push(Const::FIVE);
 
     Set<int> two;
-    two.push(2);
-    two.push(3);
-    two.push(10);
+    two.push(Const::TWO);
+    two.push(Const::THREE);
+    two.push(Const::TEN);
 
     std::cout << "\none: " << one << std::endl;
     std::cout << "two: " << two << std::endl;
@@ -89,14 +100,14 @@ int main() {
 
 
     // ===== Set<double> =====
-    Set<double> one1(1.5);
-    one1.push(2.0);
-    one1.push(3.99);
+    Set<double> one1(Const::ONE_POINT_FIVE);
+    one1.push(Const::TWO_POINT_ZERO);
+    one1.push(Const::THREE_POINT_NINE_NINE);
 
     Set<double> two1;
-    two1.push(2.0);
-    two1.push(3.98);
-    two1.push(10.0);
+    two1.push(Const::TWO_POINT_ZERO);
+    two1.push(Const::THREE_POINT_NINE_EIGHT);
+    two1.push(Const::TEN_D);
 
     std::cout << "\none1: " << one1 << std::endl;
     std::cout << "two1: " << two1 << std::endl;
@@ -113,8 +124,9 @@ int main() {
 
     std::cout << "\nStroka: " << stroka << std::endl;
 
-    if (!stroka.is_element("Bye"))
+    if (!stroka.is_element("Bye")) {
         std::cout << "'Bye' отсутствует в stroka\n";
+    }
 
     return 0;
 }

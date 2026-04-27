@@ -4,38 +4,31 @@ jobs:
   build-and-clang-tidy:
     runs-on: ubuntu-latest
     container: ghcr.io/iraspa/ubuntu-22-llvm-18:latest
-
     steps:
-      - name: Install tools
-        run: |
-          apt-get update
-          apt-get install -y clang-tidy cmake ninja-build unzip g++ clang-format
+      - name: Setup clang-tidy
+        run: apt install -y clang-tidy
+
+      - name: Setup CMake
+        uses: jwlawson/actions-setup-cmake@v2
 
       - name: Checkout project
         uses: actions/checkout@v4
 
-      - name: Configure project
-        run: cmake -S . -B build -G Ninja
-
-      - name: Build project (clang-tidy runs here)
-        run: cmake --build build
-
+      - name: Build project and run clang-tidy
+        uses: threeal/cmake-action@v2
 
   clang-format:
     runs-on: ubuntu-latest
     container: ghcr.io/iraspa/ubuntu-22-llvm-18:latest
-
     steps:
-      - name: Install tools
-        run: |
-          apt-get update
-          apt-get install -y clang-format cmake ninja-build
+      - name: Setup CMake
+        uses: jwlawson/actions-setup-cmake@v2
 
       - name: Checkout project
         uses: actions/checkout@v4
 
-      - name: Configure project
-        run: cmake -S . -B build -G Ninja
-
-      - name: Run clang-format check
-        run: cmake --build build --target clang-format
+      - name: Run clang-format only
+        uses: threeal/cmake-action@v2
+        with:
+          build-args: |
+            --target clang-format

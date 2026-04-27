@@ -34,7 +34,7 @@ int main() {
 
     std::cout << "Вектор v после добавления: " << v << std::endl;
 
-    Container v1 = v;
+    Container<const char*> v1 = v;
     std::cout << "Копия v1: " << v1 << std::endl;
 
     v1.pop(2);

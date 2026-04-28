@@ -202,11 +202,11 @@ Set<T>::~Set() {
 //---------Специализация-------------
 
 template<>
-void Set<const char*>::q_sort(int left, int right) {
+void Set<char*>::q_sort(int left, int right) {
     if (left >= right) {
         return;
     }
-    const char* pivot = this->pdata[(left + right) / 2];
+    char* pivot = this->pdata[(left + right) / 2];
 
     int i = left, j = right;
     while (i <= j) {
@@ -217,7 +217,7 @@ void Set<const char*>::q_sort(int left, int right) {
             --j;
         }
         if (i <= j) {
-            const char* tmp = this->pdata[i];
+            char* tmp = this->pdata[i];
             this->pdata[i] = this->pdata[j];
             this->pdata[j] = tmp;
             ++i;
@@ -229,7 +229,7 @@ void Set<const char*>::q_sort(int left, int right) {
 }
 
 template<>
-int Set<const char*>::q_find(const char* element) const {
+int Set<char*>::q_find(char* element) const {
     int left = 0;
     int right = this->size - 1;
 
@@ -250,7 +250,7 @@ int Set<const char*>::q_find(const char* element) const {
 }
 
 template<>
-bool Set<const char*>::operator==(const Set& other) const {
+bool Set<char*>::operator==(const Set& other) const {
     if (this->size != other.size) {
         return false;
     }
@@ -263,15 +263,11 @@ bool Set<const char*>::operator==(const Set& other) const {
 }
 
 template<>
-void Set<const char*>::push(const char* element) {
+void Set<char*>::push(char* element) {
     if (is_element(element)) {
         return;
     }
-    if (this->size >= this->max_size) {
-        this->resize(this->max_size * 2);
-    }
-    char* copy = new char[strlen(element) + 1];
-    strcpy(copy, element);
-    this->pdata[this->size++] = copy;
+    
+    Container<char*>::push(element);
     sorting();
 }

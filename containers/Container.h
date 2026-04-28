@@ -179,26 +179,26 @@ int Container<T>::find(T element) {
 
 //--------Объявления специализаций (до инстанциирования)------------
 template<>
-void Container<const char*>::push(const char* element);
+void Container<char*>::push(char* element);
 template<>
-void Container<const char*>::resize(int new_size);
+void Container<char*>::resize(int new_size);
 template<>
-void Container<const char*>::pop(int index);
+void Container<char*>::pop(int index);
 template<>
-int Container<const char*>::find(const char* element);
+int Container<char*>::find(char* element);
 template<>
-Container<const char*>::~Container();
+Container<char*>::~Container();
 template<>
-Container<const char*>::Container(const Container<const char*>& other);
+Container<char*>::Container(const Container<char*>& other);
 template<>
-Container<const char*>& Container<const char*>::operator=(const Container<const char*>& other);
+Container<char*>& Container<char*>::operator=(const Container<char*>& other);
 template<>
-Container<const char*>& Container<const char*>::operator=(Container<const char*>&& other);
+Container<char*>& Container<char*>::operator=(Container<char*>&& other);
 
 //--------Специализации------------
 
 template<>
-int Container<const char*>::find(const char* element) {
+int Container<char*>::find(char* element) {
     for (int i = 0; i < size; i++)
         if (strcmp(pdata[i], element) == 0)
             return i;
@@ -206,7 +206,7 @@ int Container<const char*>::find(const char* element) {
 }
 
 template<>
-void Container<const char*>::push(const char* element) {
+void Container<char*>::push(char* element) {
     if (size >= max_size) {
         resize(max_size * 2);
     }
@@ -216,11 +216,11 @@ void Container<const char*>::push(const char* element) {
 }
 
 template<>
-void Container<const char*>::resize(int new_size) {
+void Container<char*>::resize(int new_size) {
     if (new_size < size)
         new_size = size;
 
-    const char** new_data = new const char*[new_size];
+    char** new_data = new char*[new_size];
 
     for (int i = 0; i < size; ++i)
         new_data[i] = pdata[i];
@@ -228,18 +228,18 @@ void Container<const char*>::resize(int new_size) {
     delete[] pdata;
     pdata = new_data;
     max_size = new_size;
-}  // изменил
+}  
 
 template<>
-Container<const char*>::~Container() {
+Container<char*>::~Container() {
     delete[] pdata;
-}  // изменил
+}  
 
 template<>
-Container<const char*>::Container(const Container<const char*>& other) {
+Container<char*>::Container(const Container<char*>& other) {
     max_size = other.max_size;
     size = other.size;
-    pdata = new const char*[max_size];
+    pdata = new char*[max_size];
     for (int i{0}; i < size; ++i) {
         char* copy = new char[strlen(other.pdata[i]) + 1];
         strcpy(copy, other.pdata[i]);
@@ -248,7 +248,7 @@ Container<const char*>::Container(const Container<const char*>& other) {
 }
 
 template<>
-Container<const char*>& Container<const char*>::operator=(Container&& other) {
+Container<char*>& Container<char*>::operator=(Container&& other) {
     if (this != &other) {
         for (int i{0}; i < size; ++i) {
             delete[] const_cast<char*>(pdata[i]);
@@ -266,7 +266,7 @@ Container<const char*>& Container<const char*>::operator=(Container&& other) {
 }
 
 template<>
-void Container<const char*>::pop(int index) {
+void Container<char*>::pop(int index) {
     if (index < 0 || index >= size)
         return;
 
@@ -274,10 +274,10 @@ void Container<const char*>::pop(int index) {
         pdata[i] = pdata[i + 1];
 
     size--;
-}  // изменил
+}  
 
 template<>
-Container<const char*>& Container<const char*>::operator=(const Container<const char*>& other) {
+Container<char*>& Container<char*>::operator=(const Container<char*>& other) {
     if (this != &other) {
         for (int i{0}; i < size; ++i) {
             delete[] const_cast<char*>(pdata[i]);
@@ -286,7 +286,7 @@ Container<const char*>& Container<const char*>::operator=(const Container<const 
         max_size = other.max_size;
         size = other.size;
 
-        pdata = new const char*[max_size];
+        pdata = new char*[max_size];
         for (int i{0}; i < size; ++i) {
             char* copy = new char[strlen(other.pdata[i]) + 1];
             strcpy(copy, other.pdata[i]);

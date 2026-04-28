@@ -8,6 +8,7 @@ namespace Const {
     constexpr int THREE = 3;
     constexpr int FIVE = 5;
     constexpr int TEN = 10;
+    constexpr int BUFFER_SIZE = 20;
 
     constexpr double ONE_POINT_FIVE = 1.5;
     constexpr double TWO_POINT_ZERO = 2.0;
@@ -19,22 +20,75 @@ namespace Const {
 int main() {
 
     // ===== Container =====
-    Container<const char*> v("Hello!");
-    v.push("Привет!");
-    v.push("World");
-    v.push("Test");
+    const char* tmp1 = "Hello!";
+    const char* tmp2 = "Привет!";
+    const char* tmp3 = "World";
+    const char* tmp4 = "Test";
+    const char* tmp5 = "Another";
+    const char* tmp6 = "Example";
+    const char* tmp7 = "Yes";
+    const char* tmp8 = "No";
+    const char* tmp9 = "Cat";
+    const char* tmp10 = "Dog";
+
+    // Создаём буферы и копируем с помощью strncpy
+    char* buffer1 = new char[Const::BUFFER_SIZE];
+    char* buffer2 = new char[Const::BUFFER_SIZE];
+    char* buffer3 = new char[Const::BUFFER_SIZE];
+    char* buffer4 = new char[Const::BUFFER_SIZE];
+    char* buffer5 = new char[Const::BUFFER_SIZE];
+    char* buffer6 = new char[Const::BUFFER_SIZE];
+    char* buffer7 = new char[Const::BUFFER_SIZE];
+    char* buffer8 = new char[Const::BUFFER_SIZE];
+    char* buffer9 = new char[Const::BUFFER_SIZE];
+    char* buffer10 = new char[Const::BUFFER_SIZE];
+
+    strncpy(buffer1, tmp1, Const::BUFFER_SIZE - 1);
+    buffer1[Const::BUFFER_SIZE - 1] = '\0';
+
+    strncpy(buffer2, tmp2, Const::BUFFER_SIZE - 1);
+    buffer2[Const::BUFFER_SIZE - 1] = '\0';
+
+    strncpy(buffer3, tmp3, Const::BUFFER_SIZE - 1);
+    buffer3[Const::BUFFER_SIZE - 1] = '\0';
+
+    strncpy(buffer4, tmp4, Const::BUFFER_SIZE - 1);
+    buffer4[Const::BUFFER_SIZE - 1] = '\0';
+
+    strncpy(buffer5, tmp5, Const::BUFFER_SIZE - 1);
+    buffer5[Const::BUFFER_SIZE - 1] = '\0';
+
+    strncpy(buffer6, tmp6, Const::BUFFER_SIZE - 1);
+    buffer6[Const::BUFFER_SIZE - 1] = '\0';
+
+    strncpy(buffer7, tmp7, Const::BUFFER_SIZE - 1);
+    buffer7[Const::BUFFER_SIZE - 1] = '\0';
+
+    strncpy(buffer8, tmp8, Const::BUFFER_SIZE - 1);
+    buffer8[Const::BUFFER_SIZE - 1] = '\0';
+
+    strncpy(buffer9, tmp9, Const::BUFFER_SIZE - 1);
+    buffer9[Const::BUFFER_SIZE - 1] = '\0';
+
+    strncpy(buffer10, tmp10, Const::BUFFER_SIZE - 1);
+    buffer10[Const::BUFFER_SIZE - 1] = '\0';
+
+    Container<char*> v(buffer1);
+    v.push(buffer2);
+    v.push(buffer3);
+    v.push(buffer4);
 
     std::cout << "Вектор v: " << v << std::endl;
 
-    int index = v.find("World");
+    int index = v.find(buffer3);
     std::cout << "Индекс элемента 'World': " << index << std::endl;
 
-    v.push("Another");
-    v.push("Example");
+    v.push(buffer5);
+    v.push(buffer6);
 
     std::cout << "Вектор v после добавления: " << v << std::endl;
 
-    Container<const char*> v1 = v;
+    Container<char*> v1 = v;
     std::cout << "Копия v1: " << v1 << std::endl;
 
     v1.pop(2);
@@ -42,23 +96,23 @@ int main() {
 
 
     // ===== Set =====
-    Set<const char*> s("Yes");
-    Set<const char*> s1("Hello!");
-    Set<const char*> s2;
+    Set<char*> s(buffer7);
+    Set<char*> s1(buffer1);
+    Set<char*> s2;
 
-    s.push("Привет!");
-    s.push("No");
-    s.push("World");
+    s.push(buffer2);
+    s.push(buffer8);
+    s.push(buffer3);
 
     std::cout << "\nМножество s: " << s << std::endl;
 
-    if (s.is_element("No")) {
+    if (s.is_element(buffer8)) {
         std::cout << "'No' есть в множестве s\n";
     }
 
-    s1.push("Cat");
-    s1.push("Dog");
-    s1.push("Привет!");
+    s1.push(buffer9);
+    s1.push(buffer10);
+    s1.push(buffer2);
 
     std::cout << "Множество s1: " << s1 << std::endl;
 
@@ -71,7 +125,7 @@ int main() {
     s2 = s1 * s;
     std::cout << "s2 = s1 * s: " << s2 << std::endl;
 
-    Set<const char*> s3 = s2;
+    Set<char*> s3 = s2;
     std::cout << "s3: " << s3 << std::endl;
 
     if (s3 == s2) {
@@ -127,6 +181,18 @@ int main() {
     if (!stroka.is_element("Bye")) {
         std::cout << "'Bye' отсутствует в stroka\n";
     }
+
+    // ===== Очистка буферов =====
+    delete[] buffer1;
+    delete[] buffer2;
+    delete[] buffer3;
+    delete[] buffer4;
+    delete[] buffer5;
+    delete[] buffer6;
+    delete[] buffer7;
+    delete[] buffer8;
+    delete[] buffer9;
+    delete[] buffer10;
 
     return 0;
 }

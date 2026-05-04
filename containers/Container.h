@@ -25,10 +25,8 @@ class Container {
     int size;
     int max_size;
 
-    void raw_push(T element);
-
  public:
-    virtual void push(T element);
+    void push(T element);
     void pop(int index);
     int find(T element);
     void resize(int new_size);
@@ -46,15 +44,6 @@ class Container {
     Container(Container&&);
     virtual ~Container();
 };
-
-template<typename T>
-void Container<T>::raw_push(T element) {
-    if (this->size >= this->max_size) {
-        resize(this->max_size * 2);
-    }
-
-    this->pdata[this->size++] = element;
-}
 
 template<typename T>
 Container<T>::Container() {
@@ -232,8 +221,14 @@ void Container<char*>::resize(int new_size) {
 
 template<>
 Container<char*>::~Container() {
+    for (int i = 0; i < size; ++i) {
+        delete[] pdata[i];
+        pdata[i] = nullptr;
+    }
+    
     delete[] pdata;
-}  
+    pdata = nullptr;
+}
 
 template<>
 Container<char*>::Container(const Container<char*>& other) {

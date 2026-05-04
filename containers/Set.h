@@ -18,7 +18,7 @@ class Set : public Container<T> {
     void q_sort(int, int);
     void sorting();
 
-    void push(T element) override;
+    void push(T element);
     void pop(T element);
 
     Set& operator+=(const Set& other);
@@ -41,10 +41,7 @@ void Set<T>::push(T element) {
     if (is_element(element)) {
         return;
     }
-    if (this->size >= this->max_size) {
-        this->resize(this->max_size * 2);
-    }
-    this->pdata[(this->size)++] = element;
+    Container<T>::push(element);
     sorting();
 }
 
@@ -262,12 +259,3 @@ bool Set<char*>::operator==(const Set& other) const {
     return true;
 }
 
-template<>
-void Set<char*>::push(char* element) {
-    if (is_element(element)) {
-        return;
-    }
-    
-    Container<char*>::push(element);
-    sorting();
-}

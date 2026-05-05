@@ -33,23 +33,20 @@ std::istream& operator>>(std::istream& in, Term& term) {
     int next = in.peek();
 
     if (next == '-' || next == '+') {
-    char c = static_cast<char>(in.get());
-    if (c == '-') {
-        sign = -1;
+        char c = static_cast<char>(in.get());
+        if (c == '-') {
+            sign = -1;
+        }
+
+        in >> std::ws;
+        next = in.peek();
     }
-
-    in >> std::ws;
-    next = in.peek();
-}
-
 
     while (next != EOF && next >= '0' && next <= '9') {
         coef = coef * Constants::step + (static_cast<char>(in.get()) - '0');
         hasCoef = true;
         next = in.peek();
     }
-
-
 
     if (!hasCoef) {
         coef = 1;
@@ -60,7 +57,7 @@ std::istream& operator>>(std::istream& in, Term& term) {
         power = 1;
 
         in >> std::ws;
-        next = in.peek(); 
+        next = in.peek();
 
         if (next == '^') {
             in.get();
@@ -73,8 +70,6 @@ std::istream& operator>>(std::istream& in, Term& term) {
                 power = power * Constants::step + (static_cast<char>(in.get()) - '0');
                 next = in.peek();
             }
-
-
         }
     } else {
         power = 0;

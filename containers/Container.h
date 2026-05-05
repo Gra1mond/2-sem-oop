@@ -8,7 +8,7 @@ class Container {
     int max_size;
 
  public:
-    void push(T element);  
+    void push(T element);
     void pop(int index);
     void resize(int new_size);
 

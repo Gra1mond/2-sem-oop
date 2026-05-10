@@ -32,7 +32,7 @@ class Container {
 
 template<typename T>
 Container<T>::Container() {
-    this->max_size = 8;
+    this->max_size = 0;
     this->size = 0;
     this->pdata = new T[max_size];
 }
@@ -111,8 +111,9 @@ std::ostream& operator<<(std::ostream& out, const Container<U>& c) {
 
 template<typename T>
 void Container<T>::resize(int new_size) {
-    if (new_size < 8) {
-        new_size = 8;
+
+    if (new_size < 1) {
+        new_size = 1;
     }
     T* new_data = new T[new_size];
 
@@ -126,7 +127,10 @@ void Container<T>::resize(int new_size) {
 
 template<typename T>
 void Container<T>::push(T element) {
-    if (size >= max_size) {
+    if(max_size==0){
+        resize(8);
+    }
+    else if (size >= max_size) {
         resize(max_size * 2);
     }
     pdata[size++] = element;
@@ -142,6 +146,7 @@ void Container<T>::pop(int index) {
 
     size--;
 
-    if (size < max_size / 4)
+    if (max_size > 8 && size < max_size / 4){
         resize(max_size / 2);
+    }
 }

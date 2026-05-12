@@ -52,6 +52,9 @@ std::istream& operator>>(std::istream& in, Term& term) {
         coef = 1;
     }
 
+    in >> std::ws;
+    next = in.peek();
+
     if (next == 'x') {
         in.get();
         power = 1;

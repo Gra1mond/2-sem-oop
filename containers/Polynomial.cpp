@@ -193,13 +193,21 @@ std::istream& operator>>(std::istream& in, Polynomial& poly) {
     poly = Polynomial();
 
     Term t;
-
-    while (in >> t) {
-        poly.addTerm(t);
-
-        if (in.peek() == '\n' || in.eof()) {
+    while (true) {
+        while (in.peek() == ' ' || in.peek() == '\t') {
+            in.get();
+        }
+        int next = in.peek();
+        if (next == '\n' || next == EOF) {
             break;
         }
+        if (!(in >> t)) {
+            break;
+        }
+        poly.addTerm(t);
+    }
+    if (in.peek() == '\n') {
+        in.get();
     }
 
     return in;

@@ -1,0 +1,4 @@
+3
+Bordeaux 2018 5000 12
+Chardonnay 2020 3000 6
+Merlot 2019 4500 8

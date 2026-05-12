@@ -26,6 +26,7 @@ public:
     wineLibrary& operator=(wineLibrary other);
     ~wineLibrary();
 
+    const char* getMark() const { return mark; }
     bool operator==(const wineLibrary& other) const;
     bool operator<(const wineLibrary& other) const;
 

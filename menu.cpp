@@ -19,7 +19,7 @@ void RunWineApplication() {
     int choice = 0;
     while (true) {
         std::cout << "\n1. Добавить\n2. Вывести\n3. Сортировка ↑\n"
-                  << "4. Сортировка ↓\n5. Скопировать с условием\n"
+                  << "4. Сортировка \n5. Скопировать с условием\n"
                   << "6. Найти\n7. Сохранить\n8. Загрузить\n0. Выход\nВыбор: ";
         std::cin >> choice;
         if (choice == 0) { break; }
@@ -40,9 +40,13 @@ void RunWineApplication() {
                 break;
             }
             case kMenuFind: {
-                wineLibrary w;
-                std::cin >> w;
-                int idx = db.find(w);
+                char buf[256];
+                std::cout << "Введите марку: ";
+                std::cin >> buf;
+                std::string query(buf);
+                int idx = db.find_if([&query](const wineLibrary& w){
+                    return strcmp(w.getMark(), query.c_str()) == 0;
+                });
                 std::cout << (idx == -1 ? "Не найдено" : "Индекс: " + std::to_string(idx)) << "\n";
                 break;
             }
@@ -97,15 +101,14 @@ void RunApplication() {
                 break;
             }
             case kMenuFind: {
-                Planet p;
-                std::cout << "Введите данные планеты для поиска:\n";
-                std::cin >> p;
-                int idx = db.find(p);
-                if (idx == -1) {
-                    std::cout << "Не найдено\n";
-                } else {
-                    std::cout << "Найдено на индексе: " << idx << "\n";
-                }
+                char buf[256];
+                std::cout << "Введите название планеты: ";
+                std::cin >> buf;
+                std::string query(buf);
+                int idx = db.find_if([&query](const Planet& p){
+                    return strcmp(p.getName(), query.c_str()) == 0;
+                });
+                std::cout << (idx == -1 ? "Не найдено" : "Найдено на индексе: " + std::to_string(idx)) << "\n";
                 break;
             }
             case kMenuSave: db.write_to_file("planets.txt"); break;

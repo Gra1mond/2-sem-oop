@@ -1,0 +1,4 @@
+3
+Earth 12742 yes 1
+Mars 6779 yes 2
+Jupiter 139820 yes 95

@@ -32,6 +32,8 @@ public:
     void clear()              { data.clear(); }
     void display()            { std::cout << data; }
     int find(const T& value);
+    template<typename Predicate>
+    int find_if(Predicate pred);
     void input_from_console() {std::cin>>data;}
 };
 
@@ -63,6 +65,16 @@ Database<T>& Database<T>::operator=(Database&& other){
 template<typename T>
 int Database<T>::find(const T& value){
     auto it = std::find(data.begin(),data.end(),value);
+    if(it == data.end()){
+        return -1;
+    }
+    return it - data.begin();
+}   
+
+template<typename T>
+template<typename Predicate>
+int Database<T>::find_if(Predicate pred){
+    auto it = std::find_if(data.begin(), data.end(), pred);
     if(it == data.end()){
         return -1;
     }

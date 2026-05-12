@@ -16,6 +16,7 @@ public:
     Planet& operator=(Planet&&);
     ~Planet();  
     bool getHasLife() const { return hasLife; }
+    const char* getName() const { return name; }
 
     bool operator==(const Planet& other) const;
     bool operator<(const Planet& other) const;
@@ -114,27 +115,27 @@ std::ostream& operator<<(std::ostream& out, const Planet& p) {
 
 std::istream& operator>>(std::istream& in, Planet& p) {
     char buf[256];
-    
-    std::cout << "Название: ";
+
+    if (&in == &std::cin) std::cout << "Название: ";
     in >> buf;
     delete[] p.name;
     p.name = new char[strlen(buf) + 1];
     strcpy(p.name, buf);
 
     do {
-        std::cout << "Диаметр (>0): ";
+        if (&in == &std::cin) std::cout << "Диаметр (>0): ";
         in >> p.diameter;
-    } while (p.diameter <= 0);  
+    } while (&in == &std::cin && p.diameter <= 0);
 
-    std::cout << "Наличие жизни (yes/no): ";
+    if (&in == &std::cin) std::cout << "Наличие жизни (yes/no): ";
     char life[4];
     in >> life;
     p.hasLife = (strcmp(life, "yes") == 0);
 
     do {
-        std::cout << "Количество спутников (>=0): ";
+        if (&in == &std::cin) std::cout << "Количество спутников (>=0): ";
         in >> p.satellites;
-    } while (p.satellites < 0);  
+    } while (&in == &std::cin && p.satellites < 0);
 
     return in;
 }

@@ -24,7 +24,6 @@ public:
     wineLibrary(const wineLibrary& other);
     wineLibrary(wineLibrary&& other);
     wineLibrary& operator=(wineLibrary other);
-    wineLibrary& operator=(wineLibrary&& other);
     ~wineLibrary();
 
     bool operator==(const wineLibrary& other) const;
@@ -62,18 +61,6 @@ wineLibrary& wineLibrary::operator=(wineLibrary other) {
     std::swap(mark, other.mark);
     std::swap(price, other.price);
     std::swap(countBottles, other.countBottles);
-    return *this;
-}
-
-wineLibrary& wineLibrary::operator=(wineLibrary&& other) {
-    if (this != &other) {
-        delete[] mark;
-        mark = other.mark;
-        date = other.date;
-        price = other.price;
-        countBottles = other.countBottles;
-        other.mark = nullptr;
-    }
     return *this;
 }
 

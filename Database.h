@@ -82,7 +82,9 @@ void Database<T>::quicksort(int left, int right, Comparator cmp) {
         while (cmp(data[i], pivot)) ++i;
         while (cmp(pivot, data[j])) --j;
         if (i <= j) {
-            std::swap(data[i], data[j]);
+            T tmp_val = std::move(data[i]);
+            data[i] = std::move(data[j]);
+            data[j] = std::move(tmp_val);
             ++i;
             --j;
         }
